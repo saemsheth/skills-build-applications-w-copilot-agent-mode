@@ -36,8 +36,12 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const team = await Team.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(team);
+    const team = await Team.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!team) {
+      res.status(404).json({ error: 'Team not found' });
+    } else {
+      res.json(team);
+    }
   } catch (error) {
     res.status(500).json({ error: 'Failed to update team' });
   }
@@ -45,8 +49,12 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    await Team.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Team deleted' });
+    const deletedTeam = await Team.findByIdAndDelete(req.params.id);
+    if (!deletedTeam) {
+      res.status(404).json({ error: 'Team not found' });
+    } else {
+      res.json({ message: 'Team deleted' });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete team' });
   }

@@ -36,8 +36,12 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(user);
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!user) {
+      res.status(404).json({ error: 'User not found' });
+    } else {
+      res.json(user);
+    }
   } catch (error) {
     res.status(500).json({ error: 'Failed to update user' });
   }
@@ -45,8 +49,12 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
-    res.json({ message: 'User deleted' });
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+      res.status(404).json({ error: 'User not found' });
+    } else {
+      res.json({ message: 'User deleted' });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete user' });
   }

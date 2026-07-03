@@ -36,8 +36,12 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const activity = await Activity.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(activity);
+    const activity = await Activity.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!activity) {
+      res.status(404).json({ error: 'Activity not found' });
+    } else {
+      res.json(activity);
+    }
   } catch (error) {
     res.status(500).json({ error: 'Failed to update activity' });
   }
@@ -45,8 +49,12 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    await Activity.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Activity deleted' });
+    const deletedActivity = await Activity.findByIdAndDelete(req.params.id);
+    if (!deletedActivity) {
+      res.status(404).json({ error: 'Activity not found' });
+    } else {
+      res.json({ message: 'Activity deleted' });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Failed to delete activity' });
   }
