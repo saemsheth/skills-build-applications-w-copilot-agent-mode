@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { apiService } from '../apiService';
 
+/**
+ * Teams component - fetches from API endpoint:
+ * https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/teams
+ */
 export function Teams() {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);

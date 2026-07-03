@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { apiService } from '../apiService';
 
+/**
+ * Workouts component - fetches from API endpoint:
+ * https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/workouts
+ */
 export function Workouts() {
   const [workouts, setWorkouts] = useState([]);
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { apiService } from '../apiService';
 
+/**
+ * Leaderboard component - fetches from API endpoint:
+ * https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard
+ */
 export function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);

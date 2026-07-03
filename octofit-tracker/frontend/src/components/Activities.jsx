@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { apiService } from '../apiService';
 
+/**
+ * Activities component - fetches from API endpoint:
+ * https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/activities
+ */
 export function Activities() {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
